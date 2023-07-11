@@ -1,9 +1,9 @@
-from machine import Pin
-from dht import DHT11
 import ujson
+from dht import DHT11
+from hcsr04 import HCSR04
+from machine import Pin
 from umqtt.simple import MQTTClient
 from utime import sleep_ms
-from hcsr04 import HCSR04
 
 # Configuración de MQTT
 mqtt_server = "broker.hivemq.com"
@@ -17,16 +17,18 @@ sensorhcsr04 = HCSR04(trigger_pin=17, echo_pin=18, echo_timeout_us=10000)
 # Conexión MQTT
 client = MQTTClient("Blaggdaros", mqtt_server)
 
+
 def mqtt_callback(topic, msg):
     # Callback para manejar los mensajes MQTT recibidos
     msg = msg.decode()
-    topic = topic.decode() 
+    topic = topic.decode()
     print(f"Mensaje recibido de {topic}: ", msg)
     if topic == "EOI: Movimiento":
         # Encender la bombilla cuando se recibe un mensaje MQTT en el topic "EOI: Movimiento"
         led.on()
-        sleep_ms(2000)
+        sleep_ms(5000)
         led.off()
+
 
 # Conexión y configuración del cliente MQTT
 client.set_callback(mqtt_callback)
