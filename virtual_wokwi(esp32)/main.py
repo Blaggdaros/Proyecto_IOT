@@ -53,7 +53,7 @@ while True:
     distance = sensorhcsr04.distance_cm()
 
     # Publicar datos en MQTT
-    message = f"{int(distance)} Temperatura: {temp:.2f}, Humedad: {hum:.2f}"
+    message = f"{int(distance)} Temperatura: {temp:.2f}, Humedad: {hum:.2f}\nMovimiento detectado: {distance:.2f} cm"
     client.publish(mqtt_topic, message)
 
     sleep_ms(500)
